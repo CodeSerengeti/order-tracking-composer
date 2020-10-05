@@ -1,0 +1,2 @@
+# order-tracking-composer
+Demo Project for tracking orders in the highly concurrent Order Load, using Spring Boot, Saga Transactions and Offline Concurrency Patterns. The project is based on "Microservices Patterns" book examples, with saga transactions state machine implemented manually and with combination of all microservices in one module, allowing to see the big picture, but still trying to think in terms of microservice saga transactions
