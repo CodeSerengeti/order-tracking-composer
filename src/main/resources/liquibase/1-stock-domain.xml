@@ -1,0 +1,236 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.6.xsd">
+    <changeSet author="skyglass" id="create-order-domain">
+  
+         <createTable tableName="USER">
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="userPK"/>
+            </column>
+            <column name="username" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>   
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>  
+             <column name="password" type="VARCHAR(255)">
+                <constraints nullable="true"/>
+            </column>                                    
+        </createTable>   
+        
+       <addUniqueConstraint columnNames="username" constraintName="unique_user_username" tableName="USER"/>  
+    
+        <createTable tableName="item">
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="itemPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>   
+        
+       <addUniqueConstraint columnNames="name" constraintName="unique_item_name" tableName="item"/> 
+        
+        <createTable tableName="businessunit">
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="businessUnitPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+        
+       <addUniqueConstraint columnNames="name" constraintName="unique_businessunit_name" tableName="businessunit"/>         
+        
+         <createTable tableName="stock">
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="stockPK"/>
+            </column>
+            <column name="item_uuid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column> 
+            <column name="businessunit_uuid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>                       
+            <column name="amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>
+            <column name="active" type="Boolean" defaultValue="1"/>                        
+        </createTable>
+        
+ 		<createIndex indexName="unique_stock_item_businessunit" tableName="stock" unique="true">
+			<column name="item_uuid"/>
+			<column name="businessunit_uuid"/>
+		</createIndex>       
+        
+ 	    <addForeignKeyConstraint baseColumnNames="item_uuid" baseTableName="stock" constraintName="stock_item_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="item" validate="true"/>  
+  	    <addForeignKeyConstraint baseColumnNames="businessunit_uuid" baseTableName="stock" constraintName="stock_businessunit_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="businessunit" validate="true"/>  	          
+                
+ 
+        <createTable tableName="stockmessage">
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="stockmessagePK"/>
+            </column>
+            <column name="from_uuid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>  
+            <column name="to_uuid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>    
+            <column name="item_uuid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>  
+            <column name="amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>  
+            <column name="offsetkey" type="BIGINT" defaultValue="0">
+                <constraints nullable="false" />
+            </column> 
+            <column name="createdat" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+			<column name="messageid" type="NVARCHAR(255)">
+                <constraints unique = "true"/>
+            </column>             
+
+        </createTable>
+        
+ 	    <addForeignKeyConstraint baseColumnNames="from_uuid" baseTableName="stockmessage" constraintName="stockmessage_from_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="businessunit" validate="true"/>  
+  	    <addForeignKeyConstraint baseColumnNames="to_uuid" baseTableName="stockmessage" constraintName="stockmessage_to_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="businessunit" validate="true"/>  	    
+  	    <addForeignKeyConstraint baseColumnNames="item_uuid" baseTableName="stockmessage" constraintName="stockmessage_item_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="item" validate="true"/> 
+  	    
+        <createTable tableName="stockparameter">
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="stockParameterPK"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="value" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>                                                            
+
+        </createTable>  
+        
+        <createIndex  tableName="stockparameter" indexName="stockparameter_name_idx" unique="false">  
+	        <column  name="name" />
+	    </createIndex>	       
+  	    
+  	   <createTable tableName="stockmessage_stockparameter">
+            <column name="stockmessageentity_uuid" type="NVARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="parameters_uuid" type="NVARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>  
+        
+        <addForeignKeyConstraint baseColumnNames="stockmessageentity_uuid" baseTableName="stockmessage_stockparameter" constraintName="stockmessage_stockparameter_stockmessage_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="stockmessage" validate="true"/>  
+  	    <addForeignKeyConstraint baseColumnNames="parameters_uuid" baseTableName="stockmessage_stockparameter" constraintName="stockmessage_stockparameter_parameters_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="stockparameter" validate="true"/>  
+
+       <createTable tableName="stocktransaction">
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="stocktransactionPK"/>
+            </column>
+            <column name="message_uuid" type="VARCHAR(255)">
+                <constraints nullable="false" unique="true" />
+            </column>     
+            <column name="createdat" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>   
+			<column name="pending" type="Boolean" defaultValue="1"/>
+        </createTable>    
+        
+ 	    <addForeignKeyConstraint baseColumnNames="message_uuid" baseTableName="stocktransaction" constraintName="stocktransaction_message_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="stockmessage" validate="true"/>  
+  	    
+        <createTable tableName="transactionitem">
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="transactionItemPK"/>
+            </column>
+            <column name="transaction_uuid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>             
+			<column name="key" type="NVARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>             
+			<column name="transactiontype" type="NVARCHAR(32)">
+				<constraints nullable="false"/>
+			</column>
+            <column name="createdat" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>   
+			<column name="pending" type="Boolean" defaultValue="1"/>    			                                                     
+        </createTable>
+        
+ 		<createIndex indexName="unique_transaction_item_transaction_uuid_transactiontype" tableName="transactionitem" unique="true">
+			<column name="transaction_uuid"/>
+			<column name="transactiontype"/>
+		</createIndex>           
+        
+ 	    <addForeignKeyConstraint baseColumnNames="transaction_uuid" baseTableName="transactionitem" constraintName="transactionitem_transaction_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="stocktransaction" validate="true"/>          
+  	    
+        <createTable tableName="stockhistory">
+            <column name="uuid" type="VARCHAR(255)">
+                <constraints primaryKey="true" primaryKeyName="stockHistoryPK"/>
+            </column>
+            <column name="item_uuid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>            
+            <column name="businessunit_uuid" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>             
+            <column name="amount" type="DOUBLE">
+                <constraints nullable="false"/>
+            </column>                                         
+            <column name="startdate" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>  
+            <column name="enddate" type="TIMESTAMP">
+                <constraints nullable="true"/>
+            </column>                                           
+
+        </createTable>
+        
+ 	    <addForeignKeyConstraint baseColumnNames="businessunit_uuid" baseTableName="stockhistory" constraintName="stockmessage_businessunit_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="businessunit" validate="true"/>      
+  	    <addForeignKeyConstraint baseColumnNames="item_uuid" baseTableName="stockhistory" constraintName="stockhistory_item_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="item" validate="true"/>   
+  	    
+ 		<createIndex indexName="idx_stockhistory_ts_inverse" tableName="stockhistory" unique="false">
+			<column name="item_uuid"/>
+			<column name="businessunit_uuid"/>
+			<column name="startdate"/>	
+			<column name="enddate" descending="true" />					
+		</createIndex>    	    
+  	    
+  	    
+  	   <createTable tableName="stockhistory_stockparameter">
+            <column name="stockhistoryentity_uuid" type="NVARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+            <column name="parameters_uuid" type="NVARCHAR(255)">
+                <constraints nullable="false" primaryKey="true" />
+            </column>
+        </createTable>  
+        
+        <addForeignKeyConstraint baseColumnNames="stockhistoryentity_uuid" baseTableName="stockhistory_stockparameter" constraintName="stockhistory_stockparameter_stockhistory_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="stockhistory" validate="true"/>  
+  	    <addForeignKeyConstraint baseColumnNames="parameters_uuid" baseTableName="stockhistory_stockparameter" constraintName="stockhistory_stockparameter_parameters_uuid_fk" deferrable="false" initiallyDeferred="false" referencedColumnNames="uuid" referencedTableName="stockparameter" validate="true"/>  
+  	    
+  		<createTable tableName="keylock">
+			<column name="key" type="NVARCHAR(255)">
+                <constraints unique = "true"/>
+            </column>
+		</createTable> 	  
+		
+  		<createTable tableName="keyoffset">
+			<column name="key" type="NVARCHAR(255)">
+                <constraints unique = "true"/>
+            </column>
+            <column name="offset" type="BIGINT">
+                <constraints nullable="false"/>
+            </column> 
+		</createTable>		  		  	        
+
+	</changeSet>
+	
+</databaseChangeLog>
