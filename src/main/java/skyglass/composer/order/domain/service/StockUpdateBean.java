@@ -15,6 +15,7 @@ import skyglass.composer.order.domain.repository.StockTransactionBean;
 import skyglass.composer.order.entity.model.BusinessUnitEntity;
 import skyglass.composer.order.entity.model.ItemEntity;
 import skyglass.composer.order.entity.model.StockEntity;
+import skyglass.composer.order.entity.model.StockTransactionEntity;
 import skyglass.composer.order.exceptions.TransactionRollbackException;
 
 @Repository
@@ -31,38 +32,56 @@ public class StockUpdateBean extends AEntityBean<StockEntity> {
 	private StockTransactionBean stockTransactionBean;
 
 	public void changeStockTo(StockMessage stockMessage) throws TransactionRollbackException {
-		if (!stockTransactionBean.isCommitted(stockMessage, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockTo)) {
-			changeStock(stockMessage, stockMessage.getTo(), true, false, TransactionType.StockTo);
-			stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockTo);
+		StockTransactionEntity transaction = stockTransactionBean.getPendingTransaction(stockMessage);
+		if (transaction != null) {
+			if (!stockTransactionBean.isCommitted(transaction, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockTo)) {
+				changeStock(stockMessage, stockMessage.getTo(), true, false, TransactionType.StockTo);
+				stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockTo);
+			}
 		}
 	}
 
 	public void changeStockFrom(StockMessage stockMessage) throws TransactionRollbackException {
-		if (!stockTransactionBean.isCommitted(stockMessage, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFrom)) {
-			changeStock(stockMessage, stockMessage.getFrom(), false, false, TransactionType.StockFrom);
-			stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFrom);
+		StockTransactionEntity transaction = stockTransactionBean.getPendingTransaction(stockMessage);
+		if (transaction != null) {
+			if (!stockTransactionBean.isCommitted(transaction, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFrom)) {
+				changeStock(stockMessage, stockMessage.getFrom(), false, false, TransactionType.StockFrom);
+				stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFrom);
+			}
 		}
 	}
 
 	public void revertStockTo(StockMessage stockMessage) throws TransactionRollbackException {
-		if (stockTransactionBean.isCommitted(stockMessage, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockTo)) {
-			if (!stockTransactionBean.isCommitted(stockMessage, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockToRevert)) {
-				changeStock(stockMessage, stockMessage.getTo(), false, true, TransactionType.StockToRevert);
-				stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockToRevert);
+		StockTransactionEntity transaction = stockTransactionBean.getPendingTransaction(stockMessage);
+		if (transaction != null) {
+			if (stockTransactionBean.isCommitted(transaction, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockTo)) {
+				if (!stockTransactionBean.isCommitted(transaction, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockToRevert)) {
+					changeStock(stockMessage, stockMessage.getTo(), false, true, TransactionType.StockToRevert);
+					stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockToRevert);
+				}
+			} else {
+				stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockTo);
+				if (!stockTransactionBean.isCommitted(transaction, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockToRevert)) {
+					stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockToRevert);
+				}
 			}
-		} else {
-			stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getTo(), TransactionType.StockTo);
 		}
 	}
 
 	public void revertStockFrom(StockMessage stockMessage) throws TransactionRollbackException {
-		if (stockTransactionBean.isCommitted(stockMessage, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFrom)) {
-			if (!stockTransactionBean.isCommitted(stockMessage, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFromRevert)) {
-				changeStock(stockMessage, stockMessage.getFrom(), true, true, TransactionType.StockFromRevert);
-				stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFromRevert);
+		StockTransactionEntity transaction = stockTransactionBean.getPendingTransaction(stockMessage);
+		if (transaction != null) {
+			if (stockTransactionBean.isCommitted(transaction, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFrom)) {
+				if (!stockTransactionBean.isCommitted(transaction, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFromRevert)) {
+					changeStock(stockMessage, stockMessage.getFrom(), true, true, TransactionType.StockFromRevert);
+					stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFromRevert);
+				}
+			} else {
+				stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFrom);
+				if (!stockTransactionBean.isCommitted(transaction, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFromRevert)) {
+					stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFromRevert);
+				}
 			}
-		} else {
-			stockTransactionBean.commitTransactionItem(stockMessage, stockMessage.getItem(), stockMessage.getFrom(), TransactionType.StockFrom);
 		}
 	}
 

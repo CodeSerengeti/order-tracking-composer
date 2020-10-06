@@ -1,4 +1,4 @@
-package skyglass.composer.stock.test.bean;
+package skyglass.composer.order.test.bean;
 
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;

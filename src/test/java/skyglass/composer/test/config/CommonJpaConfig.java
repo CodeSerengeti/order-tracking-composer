@@ -27,7 +27,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import skyglass.composer.order.ComposerBeanConfiguration;
-import skyglass.composer.stock.test.bean.ComposerTestBeanConfiguration;
+import skyglass.composer.order.test.bean.ComposerTestBeanConfiguration;
 
 @Configuration
 @EnableTransactionManagement
@@ -76,7 +76,7 @@ public class CommonJpaConfig {
 		LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
 		em.setDataSource(dataSource());
 		em.setPackagesToScan(new String[] {
-				"skyglass.composer.stock.entity.model" });
+				"skyglass.composer.order.entity.model" });
 		em.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 		em.setJpaProperties(additionalProperties());
 

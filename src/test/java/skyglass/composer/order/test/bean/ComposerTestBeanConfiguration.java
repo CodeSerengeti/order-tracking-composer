@@ -1,4 +1,4 @@
-package skyglass.composer.stock.test.bean;
+package skyglass.composer.order.test.bean;
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.context.annotation.ComponentScan;

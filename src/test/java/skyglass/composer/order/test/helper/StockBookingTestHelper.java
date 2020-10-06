@@ -1,4 +1,4 @@
-package skyglass.composer.stock.test.helper;
+package skyglass.composer.order.test.helper;
 
 import java.util.function.Consumer;
 

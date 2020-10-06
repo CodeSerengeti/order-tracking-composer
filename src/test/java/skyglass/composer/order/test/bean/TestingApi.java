@@ -1,4 +1,4 @@
-package skyglass.composer.stock.test.bean;
+package skyglass.composer.order.test.bean;
 
 import java.io.File;
 import java.io.IOException;

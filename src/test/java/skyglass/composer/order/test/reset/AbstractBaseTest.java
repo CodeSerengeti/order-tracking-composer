@@ -1,4 +1,4 @@
-package skyglass.composer.stock.test.reset;
+package skyglass.composer.order.test.reset;
 
 import org.springframework.test.context.ContextConfiguration;
 

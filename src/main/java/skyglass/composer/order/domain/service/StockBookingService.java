@@ -8,7 +8,6 @@ import skyglass.composer.order.domain.dto.StockMessageDto;
 import skyglass.composer.order.domain.model.StockMessage;
 import skyglass.composer.order.domain.repository.StockMessageBean;
 import skyglass.composer.order.entity.model.StockMessageEntity;
-import skyglass.composer.order.entity.service.StockMessageService;
 import skyglass.composer.order.exceptions.NotNullableNorEmptyException;
 
 @Service
@@ -16,12 +15,6 @@ public class StockBookingService {
 
 	@Autowired
 	private StockMessageBean stockMessageBean;
-
-	@Autowired
-	private StockUpdateService stockUpdateService;
-
-	@Autowired
-	private StockMessageService stockMessageService;
 
 	public StockMessage createStockMessage(StockMessageDto stockMessageDto) {
 		if (StringUtils.isBlank(stockMessageDto.getItemUuid())) {
@@ -51,9 +44,9 @@ public class StockBookingService {
 		StockMessage result = stockMessageBean.createFromDto(stockMessageDto);
 
 		//stock update must only happen if creation of stock message is successful
-		stockUpdateService.replayTransactions(result);
-		StockMessage stockMessage = stockMessageService.getByUuid(result.getUuid());
-		return stockMessage;
+		//stockUpdateService.replayTransactions(result);
+		//StockMessage stockMessage = stockMessageService.getByUuid(result.getUuid());
+		return result;
 	}
 
 	private static String createMessageId(String id, String toUuid) {

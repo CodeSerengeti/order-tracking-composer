@@ -1,4 +1,4 @@
-package skyglass.composer.stock.domain;
+package skyglass.composer.order.domain;
 
 import java.io.IOException;
 
@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import skyglass.composer.order.domain.dto.UserDTO;
 import skyglass.composer.order.entity.service.UserServiceImpl;
-import skyglass.composer.stock.test.helper.UserTestHelper;
-import skyglass.composer.stock.test.reset.AbstractBaseTest;
+import skyglass.composer.order.test.helper.UserTestHelper;
+import skyglass.composer.order.test.reset.AbstractBaseTest;
 
 // @ActiveProfiles({ AbstractBaseTest.PROFILE_PSQL })
 public class CreateUserTest extends AbstractBaseTest {

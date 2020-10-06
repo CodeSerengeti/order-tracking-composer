@@ -1,4 +1,4 @@
-package skyglass.composer.stock.domain;
+package skyglass.composer.order.domain;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import skyglass.composer.order.domain.repository.UserRepository;
 import skyglass.composer.order.entity.model.UserEntity;
-import skyglass.composer.stock.test.reset.AbstractBaseTest;
+import skyglass.composer.order.test.reset.AbstractBaseTest;
 
 // @ActiveProfiles({ AbstractBaseTest.PROFILE_PSQL })
 public class UserRepositoryTest extends AbstractBaseTest {

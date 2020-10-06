@@ -1,4 +1,4 @@
-package skyglass.composer.stock.test.reset;
+package skyglass.composer.order.test.reset;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -13,8 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import skyglass.composer.order.entity.model.UserEntity;
 import skyglass.composer.order.exceptions.ClientException;
-import skyglass.composer.stock.test.bean.DatabaseResetBean;
-import skyglass.composer.stock.test.bean.MockHelper;
+import skyglass.composer.order.test.bean.DatabaseResetBean;
+import skyglass.composer.order.test.bean.MockHelper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles({ AbstractBaseTest.PROFILE_H2 })

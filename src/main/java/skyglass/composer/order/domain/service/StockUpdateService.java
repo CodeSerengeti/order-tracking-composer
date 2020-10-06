@@ -2,6 +2,7 @@ package skyglass.composer.order.domain.service;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -36,6 +37,13 @@ public class StockUpdateService {
 	@PostConstruct
 	public void init() throws Exception {
 		this.stockUpdateProcessor = new StockUpdateProcessor(dataSource, stockUpdateConnector);
+	}
+
+	public void replayTransactions() {
+		stockTransactionBean.deleteCommittedTransactions();
+		List<StockMessage> stockMessages = stockTransactionBean.findPendingMessages();
+		Collections.shuffle(stockMessages);
+		stockMessages.stream().forEach(s -> replayTransaction(s));
 	}
 
 	public void replayTransactions(StockMessage stockMessage) {

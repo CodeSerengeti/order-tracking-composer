@@ -1,4 +1,4 @@
-package skyglass.composer.stock.service.reset;
+package skyglass.composer.order.service.reset;
 
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;

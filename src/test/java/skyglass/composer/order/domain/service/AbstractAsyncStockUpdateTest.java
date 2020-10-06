@@ -1,4 +1,4 @@
-package skyglass.composer.stock.domain.service;
+package skyglass.composer.order.domain.service;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,8 +13,7 @@ import java.util.concurrent.TimeUnit;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import skyglass.composer.order.domain.dto.StockMessageDto;
-import skyglass.composer.order.domain.service.StockBookingService;
-import skyglass.composer.stock.test.reset.AbstractBaseTest;
+import skyglass.composer.order.test.reset.AbstractBaseTest;
 
 public abstract class AbstractAsyncStockUpdateTest extends AbstractBaseTest {
 

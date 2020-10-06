@@ -1,4 +1,4 @@
-package skyglass.composer.stock.test.bean;
+package skyglass.composer.order.test.bean;
 
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -9,8 +9,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import skyglass.composer.order.exceptions.ClientException;
-import skyglass.composer.stock.service.reset.AbstractDatabaseResetBean;
-import skyglass.composer.stock.service.reset.TableContainer;
+import skyglass.composer.order.service.reset.AbstractDatabaseResetBean;
+import skyglass.composer.order.service.reset.TableContainer;
 
 /**
  *
