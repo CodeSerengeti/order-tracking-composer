@@ -1,14 +1,23 @@
 package skyglass.composer.swagger;
 
+import static springfox.documentation.schema.AlternateTypeRules.newRule;
+
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.CompletableFuture;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.context.request.async.DeferredResult;
+
+import com.fasterxml.classmate.TypeResolver;
 
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.schema.WildcardType;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
@@ -37,8 +46,19 @@ public class SwaggerConfig {
 				.produces(DEFAULT_PRODUCES_AND_CONSUMES)
 				.consumes(DEFAULT_PRODUCES_AND_CONSUMES)
 				.protocols(new HashSet<>(Arrays.asList("HTTP")))
+				.genericModelSubstitutes(ResponseEntity.class, CompletableFuture.class)
+				.useDefaultResponseMessages(false)
+				.alternateTypeRules(
+						newRule(typeResolver.resolve(DeferredResult.class,
+								typeResolver.resolve(ResponseEntity.class, WildcardType.class)),
+								typeResolver.resolve(WildcardType.class)))
 				.select()
-				.apis(RequestHandlerSelectors.basePackage("skyglass.composer.stock")).paths(PathSelectors.any())
+				.apis(RequestHandlerSelectors.basePackage("skyglass.composer.order"))
+				.apis(RequestHandlerSelectors.basePackage("skyglass.composer.ordersandcustomers"))
+				.paths(PathSelectors.any())
 				.build();
 	}
+
+	@Autowired
+	private TypeResolver typeResolver;
 }
