@@ -12,8 +12,9 @@ import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import skyglass.composer.order.domain.dto.StockMessageDto;
 import skyglass.composer.order.test.reset.AbstractBaseTest;
+import skyglass.composer.stock.domain.dto.StockMessageDto;
+import skyglass.composer.stock.domain.service.StockBookingService;
 
 public abstract class AbstractAsyncStockUpdateTest extends AbstractBaseTest {
 

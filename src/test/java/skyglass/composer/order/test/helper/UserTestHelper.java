@@ -2,10 +2,10 @@ package skyglass.composer.order.test.helper;
 
 import java.util.function.Consumer;
 
-import skyglass.composer.order.domain.dto.UserDTO;
-import skyglass.composer.order.entity.model.UserEntity;
-import skyglass.composer.order.entity.service.UserService;
 import skyglass.composer.order.test.bean.MockHelper;
+import skyglass.composer.stock.domain.dto.UserDTO;
+import skyglass.composer.stock.entity.model.UserEntity;
+import skyglass.composer.stock.entity.service.UserService;
 import skyglass.composer.test.config.TestDataConstants;
 
 public class UserTestHelper {

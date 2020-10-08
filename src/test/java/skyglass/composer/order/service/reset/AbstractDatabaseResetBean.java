@@ -12,7 +12,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import skyglass.composer.order.exceptions.ClientException;
+import skyglass.composer.stock.exceptions.ClientException;
 
 /**
  *

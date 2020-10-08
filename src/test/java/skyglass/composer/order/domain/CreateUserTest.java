@@ -7,10 +7,10 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import skyglass.composer.order.domain.dto.UserDTO;
-import skyglass.composer.order.entity.service.UserServiceImpl;
 import skyglass.composer.order.test.helper.UserTestHelper;
 import skyglass.composer.order.test.reset.AbstractBaseTest;
+import skyglass.composer.stock.domain.dto.UserDTO;
+import skyglass.composer.stock.entity.service.UserServiceImpl;
 
 // @ActiveProfiles({ AbstractBaseTest.PROFILE_PSQL })
 public class CreateUserTest extends AbstractBaseTest {

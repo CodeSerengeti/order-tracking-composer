@@ -26,7 +26,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-import skyglass.composer.order.ComposerBeanConfiguration;
+import skyglass.composer.order.OrderTrackingConfiguration;
 import skyglass.composer.order.test.bean.ComposerTestBeanConfiguration;
 
 @Configuration
@@ -34,7 +34,7 @@ import skyglass.composer.order.test.bean.ComposerTestBeanConfiguration;
 //@ComponentScan(basePackages = { "skyglass.composer.local.repository", "skyglass.composer.local.bean", "skyglass.composer.bean",
 //		"skyglass.composer.security.service", "skyglass.composer.security.repository", "skyglass.composer.component" })
 //@EnableJpaRepositories(basePackages = { "skyglass.composer.local.repository", "skyglass.composer.repository.jpa" })
-@Import({ ComposerBeanConfiguration.class,
+@Import({ OrderTrackingConfiguration.class,
 		ComposerTestBeanConfiguration.class })
 @EnableAspectJAutoProxy(proxyTargetClass = true)
 @EnableAsync

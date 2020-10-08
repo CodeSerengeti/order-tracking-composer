@@ -8,9 +8,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import skyglass.composer.order.exceptions.ClientException;
 import skyglass.composer.order.service.reset.AbstractDatabaseResetBean;
 import skyglass.composer.order.service.reset.TableContainer;
+import skyglass.composer.stock.exceptions.ClientException;
 
 /**
  *

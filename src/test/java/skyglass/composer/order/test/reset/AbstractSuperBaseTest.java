@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import skyglass.composer.order.entity.model.UserEntity;
-import skyglass.composer.order.exceptions.ClientException;
 import skyglass.composer.order.test.bean.DatabaseResetBean;
 import skyglass.composer.order.test.bean.MockHelper;
+import skyglass.composer.stock.entity.model.UserEntity;
+import skyglass.composer.stock.exceptions.ClientException;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ActiveProfiles({ AbstractBaseTest.PROFILE_H2 })

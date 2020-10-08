@@ -2,11 +2,11 @@ package skyglass.composer.order.test.helper;
 
 import java.util.function.Consumer;
 
-import skyglass.composer.order.domain.dto.StockMessageDto;
-import skyglass.composer.order.domain.model.BusinessUnit;
-import skyglass.composer.order.domain.model.Item;
-import skyglass.composer.order.domain.model.StockMessage;
-import skyglass.composer.order.domain.service.StockBookingService;
+import skyglass.composer.stock.domain.dto.StockMessageDto;
+import skyglass.composer.stock.domain.model.BusinessUnit;
+import skyglass.composer.stock.domain.model.Item;
+import skyglass.composer.stock.domain.model.StockMessage;
+import skyglass.composer.stock.domain.service.StockBookingService;
 
 public class StockBookingTestHelper {
 
