@@ -11,7 +11,7 @@ import org.springframework.http.converter.json.MappingJackson2HttpMessageConvert
 @Configuration
 @ComponentScan
 @Import(SwaggerConfig.class)
-public class CustomerWebConfiguration {
+public class OrderTrackingWebConfiguration {
 
 	@Bean
 	public HttpMessageConverters customConverters() {

@@ -7,13 +7,15 @@ import org.springframework.context.annotation.Import;
 
 import skyglass.composer.messaging.producer.jdbc.TramMessageProducerJdbcConfiguration;
 import skyglass.composer.order.customers.CustomerConfiguration;
-import skyglass.composer.order.web.CustomerWebConfiguration;
+import skyglass.composer.order.orders.OrderConfiguration;
+import skyglass.composer.order.web.OrderTrackingWebConfiguration;
 import skyglass.composer.spring.consumer.kafka.EventuateTramKafkaMessageConsumerConfiguration;
 
 @Configuration
 @EnableAutoConfiguration
 @Import({ CustomerConfiguration.class,
-		CustomerWebConfiguration.class,
+		OrderConfiguration.class,
+		OrderTrackingWebConfiguration.class,
 		TramMessageProducerJdbcConfiguration.class,
 		EventuateTramKafkaMessageConsumerConfiguration.class })
 @ComponentScan

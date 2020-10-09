@@ -73,9 +73,14 @@
 		</dependency>
 		
 		<dependency>
-		    <groupId>org.agrona</groupId>
-		    <artifactId>Agrona</artifactId>
-		    <version>0.9.1</version>
+		  <groupId>org.agrona</groupId>
+		  <artifactId>agrona</artifactId>
+		  <version>1.8.0</version>
+		</dependency>	
+		
+		<dependency>
+		    <groupId>org.springframework.retry</groupId>
+		    <artifactId>spring-retry</artifactId>
 		</dependency>				
 		
 		<dependency>
@@ -149,9 +154,96 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
+			
+		      <plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>exec-maven-plugin</artifactId>
+		        <version>1.6.0</version>
+		        <executions>
+		          <execution>
+		            <phase>generate-sources</phase>
+		            <goals>
+		              <goal>java</goal>
+		            </goals>
+		          </execution>
+		        </executions>
+		        <configuration>
+		          <includeProjectDependencies>false</includeProjectDependencies>
+		          <includePluginDependencies>true</includePluginDependencies>
+		          <mainClass>uk.co.real_logic.sbe.SbeTool</mainClass>
+		          <systemProperties>
+		            <systemProperty>
+		              <key>sbe.output.dir</key>
+		              <value>${project.build.directory}/generated-sources/java</value>
+		            </systemProperty>
+		          </systemProperties>
+		          <arguments>
+		            <argument>${project.build.resources[0].directory}/sbe-schema.xml</argument>
+		          </arguments>
+		          <workingDirectory>${project.build.directory}/generated-sources/java</workingDirectory>
+		        </configuration>
+		        <dependencies>
+		          <dependency>
+		            <groupId>uk.co.real-logic</groupId>
+		            <artifactId>sbe-tool</artifactId>
+		            <version>1.20.2</version>
+		          </dependency>
+		        </dependencies>
+		      </plugin>
+		      <plugin>
+		        <groupId>org.codehaus.mojo</groupId>
+		        <artifactId>build-helper-maven-plugin</artifactId>
+		        <version>3.0.0</version>
+		        <executions>
+		          <execution>
+		            <id>add-source</id>
+		            <phase>generate-sources</phase>
+		            <goals>
+		              <goal>add-source</goal>
+		            </goals>
+		            <configuration>
+		              <sources>
+		                <source>${project.build.directory}/generated-sources/java/</source>
+		              </sources>
+		            </configuration>
+		          </execution>
+		        </executions>
+		      </plugin>			
 
 		</plugins>
+		
+       <pluginManagement>
+        <plugins>
+            <!--This plugin's configuration is used to store Eclipse 
+                m2e settings only. It has no influence on the Maven build itself. -->
+            <plugin>
+                <groupId>org.eclipse.m2e</groupId>
+                <artifactId>lifecycle-mapping</artifactId>
+                <version>1.0.0</version>
+                <configuration>
+                    <lifecycleMappingMetadata>
+                        <pluginExecutions>
+                            <pluginExecution>
+                                <pluginExecutionFilter>
+                                    <groupId>org.codehaus.mojo</groupId>
+                                    <artifactId>exec-maven-plugin</artifactId>
+                                    <versionRange>[1.6.0,)</versionRange>
+                                    <goals>
+                                        <goal>java</goal>
+                                    </goals>
+                                </pluginExecutionFilter>
+                                <action>
+                                    <execute />
+                                </action>
+                            </pluginExecution>
+                        </pluginExecutions>
+                    </lifecycleMappingMetadata>
+                </configuration>
+            </plugin>
+        </plugins>
+    </pluginManagement>			
 	</build>
+	
 
 	<repositories>
 		<repository>

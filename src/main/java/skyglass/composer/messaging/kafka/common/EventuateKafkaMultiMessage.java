@@ -6,6 +6,8 @@ import java.util.List;
 import org.apache.commons.lang3.builder.EqualsBuilder;
 import org.apache.commons.lang3.builder.HashCodeBuilder;
 
+import skyglass.composer.messaging.kafka.common.sbe.MultiMessageEncoder;
+
 public class EventuateKafkaMultiMessage extends KeyValue {
 
 	private List<EventuateKafkaMultiMessageHeader> headers;
@@ -35,7 +37,7 @@ public class EventuateKafkaMultiMessage extends KeyValue {
 
 	@Override
 	public int estimateSize() {
-		int headerSize = KeyValue.VALUE_HEADER_SIZE;
+		int headerSize = MultiMessageEncoder.MessagesEncoder.HeadersEncoder.HEADER_SIZE;
 		int messagesSize = KeyValue.estimateSize(headers);
 		return super.estimateSize() + headerSize + messagesSize;
 	}
